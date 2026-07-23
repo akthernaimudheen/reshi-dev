@@ -12,6 +12,7 @@ import { TestimonialsSection } from '@/components/home/testimonials-section';
 import { TechSection } from '@/components/home/tech-section';
 import { IndustriesSection } from '@/components/home/industries-section';
 import { FaqSection } from '@/components/home/faq-section';
+import { CoreShowcase } from '@/components/home/core-showcase';
 import { CtaSection } from '@/components/shared/cta-section';
 import { ScanReveal } from '@/components/shared/scan-reveal';
 
@@ -49,6 +50,10 @@ export default function HomePage() {
       </ScanReveal>
 
       <FaqSection />
+
+      {/* Cinematic vision beat, immediately before the call to action. */}
+      <CoreShowcase />
+
       <CtaSection />
     </>
   );
