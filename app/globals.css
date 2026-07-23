@@ -1,0 +1,560 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------------- *
+ * Design tokens
+ *
+ * Tailwind v4 is configured CSS-first: every key under @theme becomes a
+ * utility (--color-ink-900 -> `text-ink-900`, `bg-ink-900`, `border-ink-900`).
+ * Nothing here is arbitrary — the scales are derived from the six brand
+ * colours so that new components can only ever reach for on-brand values.
+ * ------------------------------------------------------------------------- */
+@theme {
+  /* Brand — deep navy. 900 is the spec primary (#081A3A). */
+  --color-navy-50: #f2f6fc;
+  --color-navy-100: #e2ebf7;
+  --color-navy-200: #c6d7ef;
+  --color-navy-300: #96b6e0;
+  --color-navy-400: #5f8ecd;
+  --color-navy-500: #386eb6;
+  --color-navy-600: #285599;
+  --color-navy-700: #21447c;
+  --color-navy-800: #163055;
+  --color-navy-900: #081a3a;
+  --color-navy-950: #05111f;
+
+  /* Brand — premium cyan. 500 is the spec secondary (#12C7C7). */
+  --color-cyan-50: #edfdfd;
+  --color-cyan-100: #d0f9f9;
+  --color-cyan-200: #a6f2f2;
+  --color-cyan-300: #6ae6e8;
+  --color-cyan-400: #2fd2d6;
+  --color-cyan-500: #12c7c7;
+  --color-cyan-600: #0d9499;
+  --color-cyan-700: #10767b;
+  --color-cyan-800: #145e63;
+  --color-cyan-900: #164e53;
+  --color-cyan-950: #063338;
+
+  /* Accent — the lighter electric blue used for highlights and glows. */
+  --color-accent: #36d8ff;
+  --color-accent-soft: #8ae9ff;
+
+  /* Surfaces */
+  --color-surface: #f8fbfc;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #eef4f7;
+  --color-surface-dark: #05111f;
+
+  /* Text */
+  --color-ink: #0f172a;
+  --color-ink-muted: #64748b;
+  --color-ink-inverse: #f8fbfc;
+  --color-ink-inverse-muted: #94a8c0;
+
+  /* Hairlines */
+  --color-line: #e2eaf0;
+  --color-line-strong: #cbd8e3;
+  --color-line-dark: rgb(255 255 255 / 0.1);
+
+  /* Typography — one variable family, loaded via next/font. */
+  --font-sans:
+    var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+
+  /* Fluid editorial type scale. Every step interpolates between a 360px and a
+     1440px viewport, so we never ship a separate mobile type scale. */
+  --text-display: clamp(2.75rem, 1.6rem + 5.1vw, 6rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--font-weight: 700;
+
+  --text-h1: clamp(2.25rem, 1.4rem + 3.8vw, 4.5rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.035em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: clamp(1.875rem, 1.3rem + 2.6vw, 3.25rem);
+  --text-h2--line-height: 1.06;
+  --text-h2--letter-spacing: -0.03em;
+  --text-h2--font-weight: 600;
+
+  --text-h3: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+  --text-h3--line-height: 1.16;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 600;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.5vw, 1.3125rem);
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: -0.011em;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.16em;
+  --text-eyebrow--font-weight: 600;
+
+  /* Radii — the spec's 16 / 20 / 24 ladder. */
+  --radius-card: 1rem;
+  --radius-panel: 1.25rem;
+  --radius-hero: 1.5rem;
+  --radius-pill: 999px;
+
+  /* Shadows — large blur, low alpha, tinted with the navy rather than black
+     so they read as light falling on a coloured surface. */
+  --shadow-xs: 0 1px 2px 0 rgb(8 26 58 / 0.05);
+  --shadow-sm: 0 2px 8px -2px rgb(8 26 58 / 0.08);
+  --shadow-md: 0 12px 28px -12px rgb(8 26 58 / 0.14);
+  --shadow-lg: 0 28px 60px -24px rgb(8 26 58 / 0.2);
+  --shadow-xl: 0 48px 90px -32px rgb(8 26 58 / 0.26);
+  --shadow-glow: 0 0 0 1px rgb(18 199 199 / 0.3), 0 20px 60px -20px rgb(18 199 199 / 0.4);
+
+  /* Layout rails from the spec: 1440 max, 1200 content. */
+  --spacing-content: 75rem;
+  --spacing-shell: 90rem;
+
+  /* Motion. Durations are the four the spec allows; anything else is a bug. */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-aurora: aurora 22s var(--ease-in-out-quint) infinite;
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  /* JARVIS core. Every one of these animates `transform` or `opacity` only,
+     so the whole HUD composites on the GPU and never triggers layout. */
+  --animate-hud-spin: hud-spin 48s linear infinite;
+  --animate-hud-spin-mid: hud-spin 26s linear infinite;
+  --animate-hud-spin-fast: hud-spin 12s linear infinite;
+  --animate-hud-spin-rev: hud-spin-rev 34s linear infinite;
+  --animate-hud-spin-rev-fast: hud-spin-rev 18s linear infinite;
+  --animate-hud-pulse: hud-pulse 3.2s var(--ease-in-out-quint) infinite;
+  --animate-hud-breathe: hud-breathe 5s var(--ease-in-out-quint) infinite;
+  --animate-hud-scan: hud-scan 4.5s var(--ease-in-out-quint) infinite;
+  --animate-hud-dash: hud-dash 3s linear infinite;
+  --animate-hud-blink: hud-blink 2.4s steps(1, end) infinite;
+}
+
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -6%, 0) scale(1.12);
+  }
+  66% {
+    transform: translate3d(-5%, 4%, 0) scale(0.94);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* --- JARVIS core keyframes ------------------------------------------------ */
+
+@keyframes hud-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hud-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* The reactor core's idle heartbeat. */
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
+@keyframes hud-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+/* Vertical sweep, as though the system is reading the frame. */
+@keyframes hud-scan {
+  0% {
+    transform: translateY(-46%);
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(46%);
+    opacity: 0;
+  }
+}
+
+/* Marching dashes — reads as data moving around the bezel. */
+@keyframes hud-dash {
+  to {
+    stroke-dashoffset: -240;
+  }
+}
+
+@keyframes hud-blink {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  61%,
+  100% {
+    opacity: 0.2;
+  }
+}
+
+/* ------------------------------------------------------------------------- *
+ * Base
+ * ------------------------------------------------------------------------- */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-line);
+  }
+
+  html {
+    /* Lenis drives scrolling; native smooth scroll would fight it. It is
+       re-enabled in the reduced-motion block below, where Lenis is disabled. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Lenis sets this on <html> while it controls the scroll position. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Pointer users get the ring from :focus-visible only — never a bare
+     :focus outline on click. */
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-cyan-500) 26%, transparent);
+    color: var(--color-navy-900);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Reserve space so lazily-decoded media cannot shift layout. */
+  img,
+  video,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ------------------------------------------------------------------------- *
+ * Composed utilities
+ * ------------------------------------------------------------------------- */
+@utility container-content {
+  width: 100%;
+  max-width: var(--spacing-content);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Cyan-to-accent wash used on key words in headlines. */
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-cyan-500) 0%,
+    var(--color-accent) 55%,
+    var(--color-cyan-300) 100%
+  );
+  background-clip: text;
+  color: transparent;
+  /* Descenders get clipped without a little breathing room. */
+  padding-bottom: 0.08em;
+}
+
+/* Frosted panel. Deliberately restrained: 12px blur and a high-opacity fill,
+   because heavy transparency reads cheap and costs a repaint. */
+@utility glass {
+  background-color: rgb(255 255 255 / 0.72);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.6);
+}
+
+@utility glass-dark {
+  background-color: rgb(5 17 31 / 0.6);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+/* Hairline grid used behind hero and CTA sections. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(8 26 58 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(8 26 58 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@utility bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Vertical rhythm for every major band. */
+@utility section-y {
+  padding-block: clamp(4.5rem, 3rem + 7vw, 9rem);
+}
+
+/* Promotes an element to its own layer for transform/opacity animation, then
+   hands the memory back. Applied only to elements that actually animate. */
+@utility gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ------------------------------------------------------------------------- *
+ * Long-form article styles
+ *
+ * Written by hand rather than pulled from the typography plugin: the plugin
+ * ships a full type scale we would then have to override to match our own
+ * tokens, and this is ~60 lines.
+ * ------------------------------------------------------------------------- */
+@layer components {
+  /**
+   * Freezes the JARVIS core while it is scrolled out of view. Continuous
+   * animation on an off-screen element is pure battery and GPU cost for
+   * something nobody can see — the core sits in the hero, so on any deep page
+   * scroll it would otherwise spin forever below the fold.
+   */
+  .hud-paused,
+  .hud-paused * {
+    animation-play-state: paused !important;
+  }
+
+  .prose-article {
+    color: var(--color-ink-muted);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    /* 68ch is the upper bound of comfortable reading at this size. */
+    max-width: 68ch;
+  }
+
+  .prose-article > * + * {
+    margin-top: 1.5em;
+  }
+
+  .prose-article h2,
+  .prose-article h3 {
+    color: var(--color-navy-900);
+    letter-spacing: -0.025em;
+    scroll-margin-top: 7rem;
+  }
+
+  .prose-article h2 {
+    margin-top: 2.5em;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .prose-article h3 {
+    margin-top: 2em;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  /* rehype-autolink-headings wraps the text in an anchor; it should look like
+     a heading until hovered. */
+  .prose-article .heading-anchor {
+    color: inherit;
+    text-decoration: none;
+  }
+  .prose-article .heading-anchor:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-cyan-500);
+    text-underline-offset: 6px;
+  }
+
+  .prose-article strong {
+    color: var(--color-navy-900);
+    font-weight: 600;
+  }
+
+  .prose-article a:not(.heading-anchor) {
+    color: var(--color-navy-900);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-cyan-500);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .prose-article ul,
+  .prose-article ol {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+  }
+  .prose-article ul {
+    list-style: disc;
+  }
+  .prose-article ol {
+    list-style: decimal;
+  }
+  .prose-article li::marker {
+    color: var(--color-cyan-600);
+  }
+
+  .prose-article blockquote {
+    border-left: 3px solid var(--color-cyan-500);
+    padding-left: 1.25rem;
+    font-style: italic;
+    color: var(--color-navy-900);
+  }
+
+  /* Inline code only — `pre code` is reset below. */
+  .prose-article :not(pre) > code {
+    background-color: var(--color-surface-sunken);
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    padding: 0.15em 0.4em;
+    font-size: 0.875em;
+    font-family: var(--font-mono);
+    color: var(--color-navy-900);
+  }
+
+  .prose-article pre {
+    background-color: var(--color-navy-950);
+    border-radius: var(--radius-card);
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .prose-article pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+  }
+
+  /* Tables must scroll inside themselves rather than widening the page. */
+  .prose-article table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .prose-article th,
+  .prose-article td {
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+  .prose-article th {
+    color: var(--color-navy-900);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .prose-article hr {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    margin-block: 2.5em;
+  }
+}
+
+/* ------------------------------------------------------------------------- *
+ * Reduced motion
+ *
+ * Honour the OS setting globally. Components additionally read the
+ * `usePrefersReducedMotion` hook so JS-driven animation opts out too — CSS
+ * alone cannot stop a Framer Motion spring.
+ * ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

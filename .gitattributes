@@ -1,0 +1,14 @@
+# Normalise line endings: store everything as LF in the repo, regardless of
+# the platform it was committed from. Prevents noisy CRLF/LF diffs between
+# Windows and CI/Linux.
+* text=auto eol=lf
+
+# Binary types git must never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary

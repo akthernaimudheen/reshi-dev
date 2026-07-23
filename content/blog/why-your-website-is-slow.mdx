@@ -1,0 +1,67 @@
+---
+title: 'Why your website is slow, in order of likelihood'
+description: 'The five things that actually cause a slow site, ranked by how often we find them, with the fix for each.'
+date: '2026-07-02'
+category: 'Performance'
+author: 'Akther Naimudheen'
+---
+
+Every audit we run finds the same handful of problems. Not exotic ones — the same five, in roughly the same order. If your site is slow, it is almost certainly one of these.
+
+Test first. Open your homepage on a mid-range Android phone on mobile data. That is your audience. A laptop on office wifi will tell you comforting lies.
+
+## 1. Images nobody resized
+
+By a wide margin the most common cause. A 4MB photograph straight from a camera, displayed at 800 pixels wide, downloaded in full by every visitor.
+
+The fix is not complicated:
+
+- Serve modern formats. AVIF where supported, WebP as a fallback.
+- Generate several widths and let the browser choose.
+- Give every image explicit dimensions so the layout does not jump as it loads.
+- Lazy-load anything below the fold, and never lazy-load the main hero image.
+
+A framework with a built-in image pipeline does all of this for you. If you are hand-writing `<img>` tags in 2026, this is where your seconds went.
+
+## 2. Fonts blocking the first paint
+
+Custom fonts are downloaded before text renders, unless you tell the browser otherwise. On a slow connection that is a page which looks entirely blank for two seconds while the HTML has been sitting there ready.
+
+Self-host the font, subset it to the characters you use, and set `font-display: swap`. Load two weights, not six. Every additional weight is another file on the critical path.
+
+## 3. Third-party scripts
+
+Open your network tab and count the domains. Most sites we audit are talking to eight or more: analytics, a chat widget, a heatmap tool, two ad pixels, a review widget, a cookie banner and a font CDN.
+
+Each one is a connection, a download and usually some main-thread work. The chat widget nobody uses is frequently the single heaviest thing on the page.
+
+Audit them honestly. Delete what you cannot name a use for. Defer what survives.
+
+## 4. Shipping the whole application to render a brochure
+
+A marketing site does not need to hydrate a full client-side application to show text. If your homepage ships several hundred kilobytes of JavaScript, that is time your visitor spends watching a spinner over content the server already knew.
+
+Render on the server. Send interactivity only for the parts that are actually interactive — a menu toggle, a form, a filter. This is the whole argument for server components, and for a marketing site it is not a close call.
+
+## 5. Hosting far from your customers
+
+Less common but occasionally decisive. If your server sits in Virginia and your customers are in Kerala, every request pays that round trip. Serve static assets from an edge network and put dynamic responses as close to your audience as your stack allows.
+
+## What "fast enough" means
+
+Concrete targets, on a mid-range phone over 4G:
+
+| Metric | Target |
+| --- | --- |
+| Largest Contentful Paint | under 2 seconds |
+| Cumulative Layout Shift | effectively zero |
+| Interaction to Next Paint | under 200ms |
+| Total JavaScript | under 150kb compressed |
+
+These are not aspirational. They are what a well-built marketing site does without heroics.
+
+## Why it matters more than it used to
+
+Speed is a ranking factor, but that is the smaller half. The larger half is that a person deciding where to eat tonight will not wait. They will go back and tap the next result — and you will never know it happened, because they never appeared in your analytics at all.
+
+Slow sites do not lose customers loudly. That is precisely what makes the problem so easy to ignore.
