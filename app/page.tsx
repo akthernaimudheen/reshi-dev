@@ -5,7 +5,6 @@ import { Hero } from '@/components/home/hero';
 import { TrustedBy } from '@/components/home/trusted-by';
 import { ServicesSection } from '@/components/home/services-section';
 import { WhyReshi } from '@/components/home/why-reshi';
-import { CoreSequence } from '@/components/home/core-sequence';
 import { FeaturedWork } from '@/components/home/featured-work';
 import { ProcessSection } from '@/components/home/process-section';
 import { TestimonialsSection } from '@/components/home/testimonials-section';
@@ -32,10 +31,6 @@ export default function HomePage() {
       </ScanReveal>
 
       <WhyReshi />
-
-      {/* Sits after the argument for the studio and before the proof, so the
-          reader meets the system itself between the claim and the evidence. */}
-      <CoreSequence />
 
       <ScanReveal>
         <FeaturedWork />
