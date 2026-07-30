@@ -84,7 +84,7 @@ export function Footer() {
             <h2 className="text-h3 text-ink-inverse">One useful email a month</h2>
             <p className="mt-2 max-w-sm text-sm text-ink-inverse-muted">
               What we are learning about local search, automation and AI. No newsletter
-              padding, unsubscribe in one click.
+              padding.
             </p>
           </div>
           <div className="lg:max-w-md lg:justify-self-end">

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { contactSchema } from '@/lib/validations';
+import { sendContactNotification } from '@/lib/email';
 
 /**
  * Contact form endpoint.
  *
- * NOTE: this validates, rate-limits and logs the enquiry, but does not yet
- * deliver it anywhere — no email provider is configured. Wire up Resend (or
- * similar) at the marked TODO before launch, or enquiries will be accepted
- * and silently dropped.
+ * Validates, rate-limits, then emails the enquiry via Resend. A missing
+ * configuration or provider failure returns 503 so the visitor is never shown
+ * a false success message.
  */
 
 /**
@@ -71,14 +71,26 @@ export async function POST(request: Request) {
   }
 
   const { website: _honeypot, ...enquiry } = parsed.data;
+  const receivedAt = new Date().toISOString();
 
-  // TODO: deliver the enquiry. Suggested: Resend for the notification email
-  // plus a row in your CRM. Until this exists, enquiries reach the server log
-  // and nowhere else.
-  console.info('[contact] enquiry received', {
-    ...enquiry,
-    receivedAt: new Date().toISOString(),
-  });
+  const result = await sendContactNotification(enquiry);
 
+  if (!result.delivered) {
+    console.error('[contact] delivery failed', {
+      reason: result.reason,
+      detail: 'detail' in result ? result.detail : undefined,
+      receivedAt,
+    });
+
+    return NextResponse.json(
+      {
+        error:
+          'We could not deliver that enquiry. Please email us directly and try again later.',
+      },
+      { status: 503 },
+    );
+  }
+
+  console.info('[contact] enquiry delivered', { receivedAt });
   return NextResponse.json({ ok: true });
 }

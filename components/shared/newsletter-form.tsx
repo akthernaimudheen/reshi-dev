@@ -46,7 +46,7 @@ export function NewsletterForm() {
         className="flex items-center gap-2.5 rounded-card border border-cyan-400/30 bg-cyan-400/8 px-4 py-3.5 text-sm text-cyan-200"
       >
         <Check aria-hidden="true" className="size-4 shrink-0" />
-        You are on the list. Check your inbox to confirm.
+        Thanks — we received your subscription.
       </p>
     );
   }

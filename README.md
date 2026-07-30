@@ -15,6 +15,19 @@ cp .env.example .env.local   # set NEXT_PUBLIC_SITE_URL
 npm run dev
 ```
 
+Contact and newsletter notifications require `RESEND_API_KEY`,
+`CONTACT_FROM_EMAIL` and `CONTACT_TO_EMAIL`. The sender address must use a domain
+verified in Resend. If delivery is not configured or the provider rejects a
+message, the forms show an error instead of claiming success.
+
+**Setup walkthrough: [`docs/email-setup.md`](docs/email-setup.md)** — domain
+verification, API key, `.env.local`, and exactly what the newsletter does and does
+not do. After configuring, verify the endpoints end to end:
+
+```bash
+node scripts/verify-email.mjs
+```
+
 | Script           | Does                                           |
 | ---------------- | ---------------------------------------------- |
 | `npm run dev`    | Dev server                                     |
@@ -257,9 +270,10 @@ dropping in real screenshots will not shift layout.
 
 These are known gaps, not oversights:
 
-1. **Forms do not deliver anywhere.** `app/api/contact/route.ts` and
-   `app/api/newsletter/route.ts` validate, rate-limit and log — then stop. Wire up Resend
-   (or similar) at the marked `TODO`s or enquiries will be silently dropped.
+1. **Resend must be configured before launch.** Contact enquiries and newsletter signup
+   notices are delivered to `CONTACT_TO_EMAIL`. Newsletter signups currently arrive as
+   inbox notifications; an audience, double opt-in and automated unsubscribe flow still
+   need a newsletter platform before active promotion.
 2. **Rate limiting is in-memory.** Fine for a single instance; move to Upstash/Redis if
    you deploy multi-region.
 3. **Placeholder contact details** in `constants/site.ts` — phone, WhatsApp number,

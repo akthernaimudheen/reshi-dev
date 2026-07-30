@@ -40,10 +40,10 @@ export default function PrivacyPage() {
 
             <h2>Why we collect it</h2>
             <p>
-              To reply to your enquiry, to prepare a proposal, and to send you the
-              newsletter if you asked for it. That is the complete list. We do not sell
-              your information, and we do not share it with third parties for their own
-              marketing.
+              To reply to your enquiry, to prepare a proposal, and — if you subscribed —
+              to email you when we publish something worth reading. That is the complete
+              list. We do not sell your information, and we do not share it with third
+              parties for their own marketing.
             </p>
 
             <h2>Analytics</h2>
@@ -57,8 +57,8 @@ export default function PrivacyPage() {
             <p>
               Enquiries are retained for as long as we have an active or prospective
               relationship, and for up to three years afterwards for our own records.
-              Newsletter subscriptions are kept until you unsubscribe, which you can do
-              from any email we send.
+              Newsletter subscriptions are kept until you ask us to remove you — email us
+              and we will delete your address.
             </p>
 
             <h2>Your rights</h2>
