@@ -39,8 +39,9 @@ export default function TermsPage() {
             <h2>Our content</h2>
             <p>
               The design, copy, code and brand assets on this site belong to{' '}
-              {siteConfig.legalName}. Client names, logos and project work shown here
-              remain the property of those clients and appear with their permission.
+              {siteConfig.legalName}. Should client names, logos or project work appear
+              here in future, they remain the property of those clients and will be
+              published only with their permission.
             </p>
 
             <h2>Enquiries are not a contract</h2>
@@ -75,9 +76,11 @@ export default function TermsPage() {
 
             <h2>Results</h2>
             <p>
-              The figures in our case studies are real and measured, but they describe
-              what happened for those clients. We do not guarantee equivalent outcomes,
-              and we would be suspicious of anyone who did.
+              Our case studies are currently illustrative scenarios, labelled as such
+              wherever they appear. They show how we approach a problem; they are not
+              delivered client results, and the figures are targets rather than measured
+              outcomes. We do not guarantee results, and we would be suspicious of anyone
+              who did.
             </p>
 
             <h2>Liability</h2>

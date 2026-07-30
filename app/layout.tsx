@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import { siteConfig } from '@/constants/site';
+import { siteConfig, isIndexable } from '@/constants/site';
 import { organizationSchema, websiteSchema } from '@/lib/schema';
 import { JsonLd } from '@/components/shared/json-ld';
 import { Header } from '@/components/layout/header';
@@ -60,17 +60,19 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     creator: '@reshiai',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
-  },
+  robots: isIndexable
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+          'max-video-preview': -1,
+        },
+      }
+    : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {

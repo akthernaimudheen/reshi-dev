@@ -1,4 +1,4 @@
-import type { FaqItem, PricingTier, ProcessStep, Testimonial } from '@/types';
+import type { FaqItem, PricingTier, ProcessStep } from '@/types';
 
 export const processSteps: ProcessStep[] = [
   {
@@ -35,57 +35,6 @@ export const processSteps: ProcessStep[] = [
     description:
       'The launch is the start of the data, not the end of the project. Monthly reporting in revenue terms, with the next set of priorities attached — or a clean handover if you would rather run it yourselves.',
     duration: 'Ongoing',
-  },
-];
-
-export const testimonials: Testimonial[] = [
-  {
-    quote:
-      'We stopped losing bookings to the phone. The site does the work now, and it finally looks like the food we actually serve.',
-    author: 'Rashid K.',
-    role: 'Owner',
-    company: 'SeaKing Restaurant',
-    initials: 'RK',
-  },
-  {
-    quote:
-      'The commission line on our P&L halved. That alone paid for the project twice over in the first year.',
-    author: 'Nazia P.',
-    role: 'General Manager',
-    company: 'SeaKing Suites',
-    initials: 'NP',
-  },
-  {
-    quote:
-      'It answers at two in the morning better than we answered at two in the afternoon. Our team only sees the enquiries worth their time.',
-    author: 'Sudheer M.',
-    role: 'Partner',
-    company: 'Sadhoo Mandapam',
-    initials: 'SM',
-  },
-  {
-    quote:
-      'What I appreciated most was being told which of my ideas were not worth building. Nobody had done that before.',
-    author: 'Dr. Anjali R.',
-    role: 'Founder',
-    company: 'Aurea Skin Clinic',
-    initials: 'AR',
-  },
-  {
-    quote:
-      'They handed over documentation good enough that we made our own changes for eight months without calling anyone.',
-    author: 'Faisal T.',
-    role: 'Operations Head',
-    company: 'Northfield Academy',
-    initials: 'FT',
-  },
-  {
-    quote:
-      'The site loads before the competition’s spinner finishes. On mobile that difference is the entire business.',
-    author: 'Meera S.',
-    role: 'Creative Director',
-    company: 'Meridian Label',
-    initials: 'MS',
   },
 ];
 
@@ -162,7 +111,7 @@ export const faqs: FaqItem[] = [
   {
     question: 'Do you work with businesses outside Kerala?',
     answer:
-      'Yes. Roughly half our work is remote, across India and the Gulf. Discovery happens on video, and we run the same weekly demo cadence regardless of where you are. For local SEO engagements we do need to understand your physical catchment, but that does not require us to be in it.',
+      'Yes. We work remotely across India and the Gulf. Discovery happens on video, and we run the same weekly demo cadence regardless of where you are. For local SEO engagements we do need to understand your physical catchment, but that does not require us to be in it.',
   },
   {
     question: 'What happens if I want to change something after launch?',
@@ -196,23 +145,11 @@ export const faqs: FaqItem[] = [
   },
 ];
 
-/** Names shown in the "trusted by" marquee. */
-export const clientLogos = [
-  'SeaKing Restaurant',
-  'SeaKing Suites',
-  'Sadhoo Mandapam',
-  'Aurea Skin Clinic',
-  'Meridian Label',
-  'Northfield Academy',
-  'Kadal Coast Retreats',
-  'Verdant Wellness',
-] as const;
-
 export const values = [
   {
     title: 'Say the unprofitable thing',
     description:
-      'If a project will not pay for itself, we say so before we invoice for it. We have talked more than one client out of a rebuild they did not need.',
+      'If a project will not pay for itself, we say so before we invoice for it — including when that means talking you out of a rebuild you do not need.',
   },
   {
     title: 'Ship in the open',
@@ -254,7 +191,7 @@ export const timeline = [
     year: 'Today',
     title: 'A growth partner',
     description:
-      'Forty-plus projects across six industries, and an engagement model built around the numbers a business actually reports on.',
+      'A studio built around one idea: judge the work by the numbers a business actually reports on, and say so plainly when something will not pay for itself.',
   },
 ] as const;
 

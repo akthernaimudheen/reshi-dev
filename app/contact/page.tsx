@@ -34,6 +34,8 @@ export default async function ContactPage({ searchParams }: PageProps) {
   const { plan } = await searchParams;
   const defaultService = plan ? planToService[plan] : undefined;
 
+  // Only channels that are actually configured. A dead tel: or wa.me link on
+  // the contact page is worse than showing fewer ways to get in touch.
   const channels = [
     {
       icon: Mail,
@@ -42,29 +44,41 @@ export default async function ContactPage({ searchParams }: PageProps) {
       href: `mailto:${siteConfig.contact.email}`,
       note: 'Replies within one working day',
     },
-    {
-      icon: MessageCircle,
-      label: 'WhatsApp',
-      value: 'Message us',
-      href: whatsappLink,
-      note: 'Fastest for anything urgent',
-      external: true,
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: siteConfig.contact.phone,
-      href: `tel:${siteConfig.contact.phone.replace(/\s/g, '')}`,
-      note: 'Mon–Fri, 9.30am to 6.30pm IST',
-    },
-    {
-      icon: Calendar,
-      label: 'Book a call',
-      value: '30-minute intro',
-      href: siteConfig.contact.calendly,
-      note: 'Pick a slot that suits you',
-      external: true,
-    },
+    ...(whatsappLink
+      ? [
+          {
+            icon: MessageCircle,
+            label: 'WhatsApp',
+            value: 'Message us',
+            href: whatsappLink,
+            note: 'Fastest for anything urgent',
+            external: true,
+          },
+        ]
+      : []),
+    ...(siteConfig.contact.phone
+      ? [
+          {
+            icon: Phone,
+            label: 'Phone',
+            value: siteConfig.contact.phone,
+            href: `tel:${siteConfig.contact.phone.replace(/\s/g, '')}`,
+            note: 'Mon–Fri, 9.30am to 6.30pm IST',
+          },
+        ]
+      : []),
+    ...(siteConfig.contact.calendly
+      ? [
+          {
+            icon: Calendar,
+            label: 'Book a call',
+            value: '30-minute intro',
+            href: siteConfig.contact.calendly,
+            note: 'Pick a slot that suits you',
+            external: true,
+          },
+        ]
+      : []),
   ];
 
   return (

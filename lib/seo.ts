@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { siteConfig } from '@/constants/site';
+import { siteConfig, isIndexable } from '@/constants/site';
 
 type SeoInput = {
   title: string;
@@ -36,19 +36,20 @@ export function buildMetadata({
     title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: url },
-    robots: noIndex
-      ? { index: false, follow: false }
-      : {
-          index: true,
-          follow: true,
-          googleBot: {
+    robots:
+      noIndex || !isIndexable
+        ? { index: false, follow: false }
+        : {
             index: true,
             follow: true,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
-            'max-video-preview': -1,
+            googleBot: {
+              index: true,
+              follow: true,
+              'max-image-preview': 'large',
+              'max-snippet': -1,
+              'max-video-preview': -1,
+            },
           },
-        },
     openGraph: {
       type,
       url,

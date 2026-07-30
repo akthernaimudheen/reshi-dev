@@ -2,12 +2,10 @@ import { faqs } from '@/content/site-content';
 import { faqSchema, localBusinessSchema } from '@/lib/schema';
 import { JsonLd } from '@/components/shared/json-ld';
 import { Hero } from '@/components/home/hero';
-import { TrustedBy } from '@/components/home/trusted-by';
 import { ServicesSection } from '@/components/home/services-section';
 import { WhyReshi } from '@/components/home/why-reshi';
 import { FeaturedWork } from '@/components/home/featured-work';
 import { ProcessSection } from '@/components/home/process-section';
-import { TestimonialsSection } from '@/components/home/testimonials-section';
 import { TechSection } from '@/components/home/tech-section';
 import { IndustriesSection } from '@/components/home/industries-section';
 import { FaqSection } from '@/components/home/faq-section';
@@ -21,7 +19,6 @@ export default function HomePage() {
       <JsonLd data={[localBusinessSchema(), faqSchema(faqs)]} />
 
       <Hero />
-      <TrustedBy />
 
       {/* Scan sweeps are applied to the three bands that introduce a new idea,
           not to every section. Used everywhere it would stop reading as an
@@ -37,7 +34,6 @@ export default function HomePage() {
       </ScanReveal>
 
       <ProcessSection />
-      <TestimonialsSection />
       <TechSection />
 
       <ScanReveal>

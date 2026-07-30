@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
-import { footerNav, siteConfig } from '@/constants/site';
+import { footerNav, siteConfig, socialLinks } from '@/constants/site';
 import { Logo } from './logo';
 import { NewsletterForm } from '@/components/shared/newsletter-form';
 
@@ -42,15 +42,17 @@ export function Footer() {
                   {siteConfig.contact.email}
                 </a>
               </li>
-              <li>
-                <a
-                  href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
-                  className="inline-flex items-center gap-2.5 text-ink-inverse-muted transition-colors duration-200 hover:text-cyan-300"
-                >
-                  <Phone aria-hidden="true" className="size-4" />
-                  {siteConfig.contact.phone}
-                </a>
-              </li>
+              {siteConfig.contact.phone ? (
+                <li>
+                  <a
+                    href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
+                    className="inline-flex items-center gap-2.5 text-ink-inverse-muted transition-colors duration-200 hover:text-cyan-300"
+                  >
+                    <Phone aria-hidden="true" className="size-4" />
+                    {siteConfig.contact.phone}
+                  </a>
+                </li>
+              ) : null}
               <li className="inline-flex items-center gap-2.5 text-ink-inverse-muted">
                 <MapPin aria-hidden="true" className="size-4" />
                 {siteConfig.address.locality}, {siteConfig.address.region}
@@ -98,24 +100,22 @@ export function Footer() {
           </p>
 
           <ul className="flex flex-wrap items-center gap-5">
-            {(Object.keys(siteConfig.social) as (keyof typeof siteConfig.social)[]).map(
-              (key) => (
-                <li key={key}>
-                  <a
-                    href={siteConfig.social[key]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-1 text-sm text-ink-inverse-muted transition-colors duration-200 hover:text-cyan-300"
-                  >
-                    {socialLabels[key]}
-                    <ArrowUpRight
-                      aria-hidden="true"
-                      className="size-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                    />
-                  </a>
-                </li>
-              ),
-            )}
+            {socialLinks.map(([key, url]) => (
+              <li key={key}>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-1 text-sm text-ink-inverse-muted transition-colors duration-200 hover:text-cyan-300"
+                >
+                  {socialLabels[key]}
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="size-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  />
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

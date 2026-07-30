@@ -5,6 +5,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 import { Reveal } from '@/components/shared/reveal';
 import { Scroll3D } from '@/components/shared/scroll-3d';
 import { CaseStudyCard } from '@/components/work/case-study-card';
+import { IllustrativeNotice } from '@/components/work/illustrative-notice';
 
 export function FeaturedWork() {
   const [lead, ...rest] = featuredCaseStudies;
@@ -17,10 +18,10 @@ export function FeaturedWork() {
             eyebrow="Selected work"
             title={
               <>
-                Projects with <span className="text-gradient">numbers</span> attached
+                How we work, <span className="text-gradient">shown in full</span>
               </>
             }
-            description="Every case study names the problem, the build and what changed afterwards. Where a result was modest, we say that too."
+            description="Each scenario names the problem, the build and the numbers it is designed to move — the same way we would scope your project."
           />
           <Reveal delay={0.15}>
             <Link
@@ -36,7 +37,9 @@ export function FeaturedWork() {
           </Reveal>
         </div>
 
-        <div className="mt-14 flex flex-col gap-5">
+        <IllustrativeNotice className="mt-10" />
+
+        <div className="mt-6 flex flex-col gap-5">
           {lead ? (
             // Gentler than the grid below it: this card is large, and a big
             // surface rotating far reads as wobble rather than depth.

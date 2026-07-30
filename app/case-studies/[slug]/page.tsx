@@ -10,6 +10,7 @@ import { PageHero } from '@/components/shared/page-hero';
 import { Reveal } from '@/components/shared/reveal';
 import { Counter } from '@/components/shared/counter';
 import { CaseStudyCard } from '@/components/work/case-study-card';
+import { IllustrativeNotice } from '@/components/work/illustrative-notice';
 import { CtaSection } from '@/components/shared/cta-section';
 import { Badge } from '@/components/ui/badge';
 
@@ -90,6 +91,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
       {/* Full-bleed project canvas. Replace with a real screenshot when
           available — the aspect ratio is already reserved. */}
       <div className="container-content">
+        <IllustrativeNotice className="mb-8" />
         <Reveal>
           <div
             className="relative aspect-[16/9] overflow-hidden rounded-hero shadow-xl"

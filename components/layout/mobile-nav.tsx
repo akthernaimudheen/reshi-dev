@@ -178,15 +178,17 @@ export function MobileNav() {
                   Start a project
                   <ArrowUpRight aria-hidden="true" />
                 </ButtonLink>
-                <ButtonLink
-                  href={whatsappLink}
-                  size="lg"
-                  variant="outline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Message on WhatsApp
-                </ButtonLink>
+                {whatsappLink ? (
+                  <ButtonLink
+                    href={whatsappLink}
+                    size="lg"
+                    variant="outline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Message on WhatsApp
+                  </ButtonLink>
+                ) : null}
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
                   className="pt-2 text-center text-sm text-ink-muted"

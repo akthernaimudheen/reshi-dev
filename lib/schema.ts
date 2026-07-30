@@ -35,10 +35,11 @@ export function organizationSchema() {
       '@type': 'ContactPoint',
       contactType: 'sales',
       email: siteConfig.contact.email,
-      telephone: siteConfig.contact.phone,
+      ...(siteConfig.contact.phone ? { telephone: siteConfig.contact.phone } : {}),
       availableLanguage: ['English', 'Malayalam'],
     },
-    sameAs: Object.values(siteConfig.social),
+    // Only real profiles; an empty or invented sameAs entry is worse than none.
+    sameAs: Object.values(siteConfig.social).filter((url) => url.length > 0),
   };
 }
 
@@ -50,7 +51,7 @@ export function localBusinessSchema() {
     name: siteConfig.name,
     image: `${siteConfig.url}/opengraph-image`,
     url: siteConfig.url,
-    telephone: siteConfig.contact.phone,
+    ...(siteConfig.contact.phone ? { telephone: siteConfig.contact.phone } : {}),
     email: siteConfig.contact.email,
     priceRange: '₹₹',
     address: {
@@ -150,7 +151,6 @@ export function caseStudySchema(study: CaseStudy) {
     author: { '@id': ORGANIZATION_ID },
     publisher: { '@id': ORGANIZATION_ID },
     about: study.client,
-    datePublished: `${study.year}-01-01`,
   };
 }
 

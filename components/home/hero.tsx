@@ -30,8 +30,8 @@ export function Hero() {
           <div className="flex flex-col items-start gap-7">
             <Reveal y={12} blur={false}>
               <Badge variant="accent">
-                <Star aria-hidden="true" className="size-3 fill-current" />
-                Trusted by 40+ businesses across 6 industries
+                <Star aria-hidden="true" className="size-3 fill-current" />A Kerala studio
+                for restaurants, hotels, clinics and local brands
               </Badge>
             </Reveal>
 

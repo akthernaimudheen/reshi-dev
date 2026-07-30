@@ -35,16 +35,18 @@ export function CtaSection({
                 Book a call
                 <ArrowUpRight aria-hidden="true" />
               </MagneticLink>
-              <ButtonLink
-                href={whatsappLink}
-                size="lg"
-                variant="outline-inverse"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MessageCircle aria-hidden="true" />
-                WhatsApp us
-              </ButtonLink>
+              {whatsappLink ? (
+                <ButtonLink
+                  href={whatsappLink}
+                  size="lg"
+                  variant="outline-inverse"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle aria-hidden="true" />
+                  WhatsApp us
+                </ButtonLink>
+              ) : null}
             </div>
           </Reveal>
 

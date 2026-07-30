@@ -23,12 +23,20 @@ export const siteConfig = {
     role: 'Founder & Lead Engineer',
   },
 
+  /**
+   * Anything blank here is HIDDEN everywhere it would render, rather than
+   * shown as a dead link. Fill each in as it becomes real.
+   */
   contact: {
     email: 'hello@reshi.ai',
-    phone: '+91 00000 00000',
+    // `as string` widens these past the literal '' that `as const` would infer,
+    // so a truthy guard narrows to string rather than to `never`.
+    /** e.g. '+91 98765 43210'. Blank until a real line exists. */
+    phone: '' as string,
     /** Digits only — WhatsApp deep links reject spaces and punctuation. */
-    whatsapp: '910000000000',
-    calendly: 'https://calendly.com/reshi-ai/intro',
+    whatsapp: '' as string,
+    /** Full booking URL. Blank until the calendar is live. */
+    calendly: '' as string,
   },
 
   address: {
@@ -44,21 +52,33 @@ export const siteConfig = {
     longitude: 76.2673,
   },
 
+  /** Blank entries are filtered out of the footer and the JSON-LD graph. */
   social: {
-    instagram: 'https://instagram.com/reshi.ai',
-    linkedin: 'https://linkedin.com/company/reshi-ai',
-    x: 'https://x.com/reshiai',
-    github: 'https://github.com/reshi-ai',
+    instagram: '' as string,
+    linkedin: '' as string,
+    x: '' as string,
+    github: '' as string,
   },
 
-  /** Cheap credibility numbers used in the hero and about page. */
+  /**
+   * Standards we build to — NOT a track record. Do not put project counts or
+   * client results here until they are real and measured.
+   */
   stats: [
-    { value: '40+', label: 'Projects delivered' },
-    { value: '3.4×', label: 'Average lead lift' },
-    { value: '<1.5s', label: 'Median load time' },
-    { value: '6', label: 'Industries served' },
+    { value: '6', label: 'Industries we focus on' },
+    { value: '<1.5s', label: 'Load time we build to' },
+    { value: '100', label: 'Accessibility target' },
+    { value: '8 wks', label: 'Typical build' },
   ],
 } as const;
+
+/**
+ * Search engines are told to index the site ONLY when this is explicitly
+ * enabled. It defaults to off so preview and staging deployments can never be
+ * indexed by accident — set NEXT_PUBLIC_SITE_INDEXABLE=true on the production
+ * domain once the content is real.
+ */
+export const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true';
 
 export type NavItem = {
   label: string;
@@ -117,12 +137,12 @@ export const mainNav: NavGroup[] = [
       {
         label: 'All projects',
         href: '/work',
-        description: 'The full portfolio, filterable by industry.',
+        description: 'Worked scenarios, filterable by industry.',
       },
       {
         label: 'Case studies',
         href: '/case-studies',
-        description: 'The problem, the build and the numbers afterwards.',
+        description: 'The problem, the build and the numbers we target.',
       },
       {
         label: 'Industries',
@@ -169,6 +189,17 @@ export const footerNav = [
   },
 ] as const;
 
-export const whatsappLink = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
-  'Hi Reshi AI — I’d like to discuss a project.',
-)}`;
+/**
+ * Null when no WhatsApp number is configured, so callers can omit the button
+ * instead of rendering a wa.me link with no recipient.
+ */
+export const whatsappLink = siteConfig.contact.whatsapp
+  ? `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
+      'Hi Reshi AI — I’d like to discuss a project.',
+    )}`
+  : null;
+
+/** Social entries that actually have a URL. */
+export const socialLinks = (
+  Object.entries(siteConfig.social) as [keyof typeof siteConfig.social, string][]
+).filter(([, url]) => url.length > 0);
